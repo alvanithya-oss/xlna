@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XLNA — Strategic Domain Portfolio</title>
+  <meta name="description" content="Alva. Strategic domain investor since 2009. Premium digital assets across quantum computing, AI, cybersecurity, fintech and emerging technology." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:       #0a0d12;
+      --paper:     #f5f2ec;
+      --gold:      #b89a5a;
+      --gold-dim:  #7a6438;
+      --steel:     #8a95a3;
+      --mist:      #1c2230;
+      --glow:      rgba(184,154,90,0.12);
+      --line:      rgba(184,154,90,0.2);
+      --serif:     'Cormorant Garamond', Georgia, serif;
+      --mono:      'DM Mono', monospace;
+      --sans:      'Outfit', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--ink);
+      color: var(--paper);
+      font-family: var(--sans);
+      font-weight: 300;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── Custom cursor ─────────────────────────────────────────────────── */
+    .cursor {
+      position: fixed;
+      width: 8px; height: 8px;
+      background: var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width .2s, height .2s, background .2s;
+      mix-blend-mode: screen;
+    }
+    .cursor-ring {
+      position: fixed;
+      width: 32px; height: 32px;
+      border: 1px solid var(--gold-dim);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: all .12s ease;
+      opacity: 0.6;
+    }
+    body:hover .cursor { opacity: 1; }
+
+    /* ── Noise grain overlay ───────────────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    /* ── Grid lines ────────────────────────────────────────────────────── */
+    .grid-bg {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(184,154,90,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(184,154,90,0.03) 1px, transparent 1px);
+      background-size: 80px 80px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Layout ────────────────────────────────────────────────────────── */
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 48px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ── Nav ───────────────────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 24px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(to bottom, rgba(10,13,18,0.95) 0%, transparent 100%);
+      backdrop-filter: blur(8px);
+    }
+
+    .nav-brand {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--steel);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--paper); }
+
+    /* ── Hero ──────────────────────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-bottom: 120px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-year {
+      position: absolute;
+      top: 120px; right: 48px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      color: var(--gold-dim);
+      writing-mode: vertical-rl;
+      text-transform: uppercase;
+      animation: fadeIn 1.5s 0.5s both;
+    }
+
+    .hero-line {
+      position: absolute;
+      right: 68px;
+      top: 200px;
+      width: 1px;
+      height: 0;
+      background: linear-gradient(to bottom, var(--gold-dim), transparent);
+      animation: lineGrow 1.5s 1s both;
+    }
+
+    @keyframes lineGrow {
+      to { height: 200px; }
+    }
+
+    .hero-eyebrow {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.35em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: slideUp 0.8s 0.3s both;
+    }
+
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(64px, 9vw, 128px);
+      font-weight: 300;
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+      color: var(--paper);
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: slideUp 0.9s 0.5s both;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero-sub {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--steel);
+      line-height: 1.7;
+      max-width: 500px;
+      margin-bottom: 56px;
+      opacity: 0;
+      animation: slideUp 0.9s 0.7s both;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 0;
+      opacity: 0;
+      animation: slideUp 0.9s 0.9s both;
+    }
+
+    .stat {
+      padding: 0 48px 0 0;
+      border-right: 1px solid var(--line);
+      margin-right: 48px;
+    }
+    .stat:last-child { border-right: none; margin-right: 0; }
+
+    .stat-num {
+      font-family: var(--serif);
+      font-size: 42px;
+      font-weight: 300;
+      color: var(--paper);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      color: var(--gold-dim);
+      text-transform: uppercase;
+    }
+
+    /* ── Divider ───────────────────────────────────────────────────────── */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--line), transparent);
+      margin: 120px 0;
+    }
+
+    /* ── Section labels ────────────────────────────────────────────────── */
+    .section-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.4em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 48px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      max-width: 60px;
+      height: 1px;
+      background: var(--gold-dim);
+    }
+
+    /* ── About ─────────────────────────────────────────────────────────── */
+    #about { padding: 0; }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .about-heading {
+      font-family: var(--serif);
+      font-size: clamp(36px, 4vw, 56px);
+      font-weight: 300;
+      line-height: 1.15;
+      color: var(--paper);
+      margin-bottom: 32px;
+    }
+
+    .about-heading em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .about-body {
+      font-size: 15px;
+      line-height: 1.85;
+      color: var(--steel);
+      margin-bottom: 20px;
+    }
+
+    .about-body strong {
+      color: var(--paper);
+      font-weight: 400;
+    }
+
+    .namepros-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 32px;
+      padding: 14px 24px;
+      border: 1px solid var(--line);
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      text-decoration: none;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .namepros-badge::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--glow);
+      transform: translateX(-100%);
+      transition: transform 0.4s ease;
+    }
+
+    .namepros-badge:hover::before { transform: translateX(0); }
+    .namepros-badge:hover { border-color: var(--gold); color: var(--paper); }
+
+    .namepros-dot {
+      width: 6px; height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    /* ── Portfolio ─────────────────────────────────────────────────────── */
+    #portfolio { padding: 0; }
+
+    .portfolio-intro {
+      font-family: var(--serif);
+      font-size: clamp(28px, 3vw, 42px);
+      font-weight: 300;
+      color: var(--paper);
+      line-height: 1.3;
+      max-width: 600px;
+      margin-bottom: 72px;
+    }
+
+    .portfolio-intro em { font-style: italic; color: var(--gold); }
+
+    .niche-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+    }
+
+    .niche-card {
+      padding: 40px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.04);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .niche-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 2px;
+      height: 0;
+      background: var(--gold);
+      transition: height 0.4s ease;
+    }
+
+    .niche-card:hover { background: rgba(184,154,90,0.04); }
+    .niche-card:hover::before { height: 100%; }
+
+    .niche-tag {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      color: var(--gold-dim);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .niche-name {
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--paper);
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    .domain-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .domain-pill {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--steel);
+      padding: 4px 10px;
+      border: 1px solid rgba(138,149,163,0.2);
+      transition: all 0.3s;
+      letter-spacing: 0.05em;
+    }
+
+    .domain-pill.hot {
+      color: var(--gold);
+      border-color: var(--line);
+    }
+
+    .niche-card:hover .domain-pill { border-color: rgba(184,154,90,0.2); }
+    .niche-card:hover .domain-pill.hot { border-color: var(--gold-dim); }
+
+    .domain-count {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: rgba(138,149,163,0.5);
+      margin-top: 12px;
+      letter-spacing: 0.1em;
+    }
+
+    /* ── Process ───────────────────────────────────────────────────────── */
+    #process { padding: 0; }
+
+    .process-heading {
+      font-family: var(--serif);
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 300;
+      color: var(--paper);
+      line-height: 1.2;
+      margin-bottom: 72px;
+      max-width: 500px;
+    }
+
+    .process-heading em { font-style: italic; color: var(--gold); }
+
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .step {
+      padding: 40px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .step-num {
+      font-family: var(--serif);
+      font-size: 72px;
+      font-weight: 300;
+      color: rgba(184,154,90,0.15);
+      line-height: 1;
+      margin-bottom: 24px;
+    }
+
+    .step-title {
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: var(--paper);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .step-body {
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--steel);
+    }
+
+    /* ── Contact ───────────────────────────────────────────────────────── */
+    #contact {
+      padding: 0;
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .contact-heading {
+      font-family: var(--serif);
+      font-size: clamp(44px, 6vw, 88px);
+      font-weight: 300;
+      line-height: 0.95;
+      color: var(--paper);
+    }
+
+    .contact-heading em {
+      font-style: italic;
+      color: var(--gold);
+      display: block;
+    }
+
+    .contact-body {
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--steel);
+      margin-bottom: 40px;
+    }
+
+    .contact-email {
+      display: block;
+      font-family: var(--mono);
+      font-size: 15px;
+      color: var(--gold);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      margin-bottom: 32px;
+      transition: color 0.3s;
+    }
+    .contact-email:hover { color: var(--paper); }
+
+    .contact-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 36px;
+      background: var(--gold);
+      color: var(--ink);
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-cta::after {
+      content: '→';
+      transition: transform 0.3s;
+    }
+
+    .contact-cta:hover {
+      background: var(--paper);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(184,154,90,0.25);
+    }
+
+    .contact-cta:hover::after { transform: translateX(4px); }
+
+    .escrow-note {
+      margin-top: 24px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--gold-dim);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .escrow-note::before {
+      content: '';
+      width: 16px; height: 1px;
+      background: var(--gold-dim);
+    }
+
+    /* ── Footer ────────────────────────────────────────────────────────── */
+    footer {
+      padding: 48px 0;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-brand {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      color: var(--gold-dim);
+    }
+
+    .footer-copy {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: rgba(138,149,163,0.4);
+    }
+
+    /* ── Animations ────────────────────────────────────────────────────── */
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Responsive ────────────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      nav { padding: 20px 24px; }
+      .nav-links { display: none; }
+      .wrap { padding: 0 24px; }
+      .about-grid,
+      .contact-inner { grid-template-columns: 1fr; gap: 48px; }
+      .niche-grid { grid-template-columns: 1fr; }
+      .process-steps { grid-template-columns: 1fr; }
+      .hero-year { display: none; }
+      body { cursor: auto; }
+      .cursor, .cursor-ring { display: none; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <div class="grid-bg"></div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-brand">XLNA</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#contact">Enquire</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-year">Est. 2009</div>
+    <div class="hero-line"></div>
+    <div class="wrap">
+      <p class="hero-eyebrow">Strategic Domain Portfolio</p>
+      <h1 class="hero-title">
+        Premium<br />digital<br /><em>assets.</em>
+      </h1>
+      <p class="hero-sub">
+        Acquiring and curating high-value domain names across quantum computing,
+        AI, cybersecurity, and emerging technology since 2009.
+      </p>
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-num">16+</div>
+          <div class="stat-label">Years Active</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">280+</div>
+          <div class="stat-label">Domains Held</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">14</div>
+          <div class="stat-label">Niche Categories</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">$200K+</div>
+          <div class="stat-label">Est. Portfolio Value</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="wrap">
+      <div class="divider"></div>
+      <div class="section-label reveal">About</div>
+      <div class="about-grid reveal">
+        <div>
+          <h2 class="about-heading">
+            I think the way your<br /><em>CMO thinks.</em>
+          </h2>
+        </div>
+        <div>
+          <p class="about-body">
+            I'm Alva. I've been investing in premium domain names since <strong>2009</strong> —
+            before most people had heard the phrase "domain investing."
+          </p>
+          <p class="about-body">
+            By day, I work as a <strong>Domain Solution Architect</strong> within the Enterprise
+            Architecture team at a global Fortune 500. That background shapes everything about
+            how I evaluate domains: not just for search volume, but for brand coherence,
+            buyer psychology, and long-term strategic fit.
+          </p>
+          <p class="about-body">
+            My current focus is <strong>quantum computing and post-quantum security</strong> —
+            a sector I identified early and where I hold some of the strongest
+            available assets on the market. Every domain in this portfolio was acquired
+            with a specific buyer profile in mind.
+          </p>
+          <a href="https://www.namepros.com" target="_blank" rel="noopener" class="namepros-badge">
+            <span class="namepros-dot"></span>
+            Verified on NamePros since 2009
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO -->
+  <section id="portfolio">
+    <div class="wrap">
+      <div class="divider"></div>
+      <div class="section-label reveal">Featured Portfolio</div>
+      <p class="portfolio-intro reveal">
+        A curated selection from <em>280+ domains</em> across the most
+        important emerging technology verticals.
+      </p>
+
+      <div class="niche-grid">
+
+        <div class="niche-card reveal">
+          <div class="niche-tag">Tier I · Priority</div>
+          <div class="niche-name">Quantum Computing & Security</div>
+          <ul class="domain-list">
+            <li class="domain-pill hot">intq.com</li>
+            <li class="domain-pill hot">zerotrustq.com</li>
+            <li class="domain-pill hot">quantumrisklab.com</li>
+            <li class="domain-pill">qsecurechain.com</li>
+            <li class="domain-pill">hybridquantumcloud.com</li>
+            <li class="domain-pill">topologicalq.com</li>
+            <li class="domain-pill">quantummontecarlo.com</li>
+            <li class="domain-pill">portableqc.com</li>
+          </ul>
+          <div class="domain-count">+ 5 more in category</div>
+        </div>
+
+        <div class="niche-card reveal">
+          <div class="niche-tag">Tier I · Priority</div>
+          <div class="niche-name">AI, Machine Learning & Data</div>
+          <ul class="domain-list">
+            <li class="domain-pill hot">allml.com</li>
+            <li class="domain-pill">skilledml.com</li>
+            <li class="domain-pill">aidatalake.com</li>
+            <li class="domain-pill">biascheckai.com</li>
+            <li class="domain-pill">datamineai.com</li>
+            <li class="domain-pill">gamedesignai.com</li>
+            <li class="domain-pill">recomatico.com</li>
+          </ul>
+          <div class="domain-count">+ 8 more in category</div>
+        </div>
+
+        <div class="niche-card reveal">
+          <div class="niche-tag">Tier II · Strong</div>
+          <div class="niche-name">Cybersecurity & Privacy</div>
+          <ul class="domain-list">
+            <li class="domain-pill hot">pentesttool.com</li>
+            <li class="domain-pill">biosecuredefense.com</li>
+            <li class="domain-pill">discretechat.com</li>
+            <li class="domain-pill">webpagesecurity.com</li>
+            <li class="domain-pill">discreetmoney.com</li>
+          </ul>
+          <div class="domain-count">+ 1 more in category</div>
+        </div>
+
+        <div class="niche-card reveal">
+          <div class="niche-tag">Tier II · Strong</div>
+          <div class="niche-name">Legal Tech & Compliance</div>
+          <ul class="domain-list">
+            <li class="domain-pill hot">legalplugin.ai</li>
+            <li class="domain-pill hot">legalplugin.com</li>
+            <li class="domain-pill">complianceplugin.com</li>
+            <li class="domain-pill">sustainablecheck.com</li>
+          </ul>
+          <div class="domain-count">+ 2 more in category</div>
+        </div>
+
+        <div class="niche-card reveal">
+          <div class="niche-tag">Tier II · Emerging</div>
+          <div class="niche-name">SEO, AEO & Search Intelligence</div>
+          <ul class="domain-list">
+            <li class="domain-pill hot">rankbyanswers.com</li>
+            <li class="domain-pill hot">querysniper.com</li>
+            <li class="domain-pill hot">askoptimizer.com</li>
+            <li class="domain-pill">schemaanswers.com</li>
+            <li class="domain-pill">aeodecoded.com</li>
+            <li class="domain-pill">snippetedge.com</li>
+          </ul>
+          <div class="domain-count">+ 9 more in category</div>
+        </div>
+
+        <div class="niche-card reveal">
+          <div class="niche-tag">Tier II · Emerging</div>
+          <div class="niche-name">Silent Input & Accessibility UX</div>
+          <ul class="domain-list">
+            <li class="domain-pill hot">silentinput.com</li>
+            <li class="domain-pill hot">silentui.com</li>
+            <li class="domain-pill">silentspell.com</li>
+            <li class="domain-pill">silentsdk.com</li>
+            <li class="domain-pill">myoinput.com</li>
+            <li class="domain-pill">muscletext.com</li>
+          </ul>
+          <div class="domain-count">+ 6 more in category</div>
+        </div>
+
+        <div class="niche-card reveal">
+          <div class="niche-tag">Tier II · Niche</div>
+          <div class="niche-name">BioTech & Life Sciences</div>
+          <ul class="domain-list">
+            <li class="domain-pill hot">synbiofab.com</li>
+            <li class="domain-pill">moleculeoptimize.com</li>
+            <li class="domain-pill">isithealthyto.com</li>
+            <li class="domain-pill">cureormyth.com</li>
+            <li class="domain-pill">nanosprayer.com</li>
+          </ul>
+          <div class="domain-count">+ 8 more in category</div>
+        </div>
+
+        <div class="niche-card reveal">
+          <div class="niche-tag">Tier II · Niche</div>
+          <div class="niche-name">Whisky, Spirits & Lifestyle</div>
+          <ul class="domain-list">
+            <li class="domain-pill hot">whiskystory.com</li>
+            <li class="domain-pill hot">myfavouritemalt.com</li>
+            <li class="domain-pill">whiskeygifting.com</li>
+            <li class="domain-pill">scotchtale.com</li>
+            <li class="domain-pill">oldduke.com</li>
+            <li class="domain-pill">pepperbeer.com</li>
+          </ul>
+          <div class="domain-count">+ 7 more in category</div>
+        </div>
+
+      </div>
+
+      <div style="margin-top: 48px; text-align: center;" class="reveal">
+        <p style="font-family: var(--mono); font-size: 12px; letter-spacing: 0.2em; color: var(--gold-dim); text-transform: uppercase;">
+          Full portfolio available on request · All domains verified available
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section id="process">
+    <div class="wrap">
+      <div class="divider"></div>
+      <div class="section-label reveal">How It Works</div>
+      <h2 class="process-heading reveal">
+        Straight forward.<br /><em>No auction theatrics.</em>
+      </h2>
+      <div class="process-steps">
+        <div class="step reveal">
+          <div class="step-num">01</div>
+          <div class="step-title">Enquire</div>
+          <div class="step-body">
+            Reach out directly via email with the domain you're interested in.
+            I respond to every serious enquiry, usually within 24 hours.
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">02</div>
+          <div class="step-title">Negotiate</div>
+          <div class="step-body">
+            Direct negotiation with no middlemen. Pricing reflects market
+            reality, not inflated ask prices. I work with buyers, not against them.
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">03</div>
+          <div class="step-title">Transfer</div>
+          <div class="step-body">
+            All transactions handled via Escrow.com for full buyer and
+            seller protection. Clean transfer, no friction.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="divider"></div>
+      <div class="contact-inner">
+        <div class="reveal">
+          <h2 class="contact-heading">
+            Let's<br />talk<br /><em>domains.</em>
+          </h2>
+        </div>
+        <div class="reveal">
+          <p class="contact-body">
+            If you're a founder, CMO, or brand strategist who understands the value
+            of owning the right domain before your competitors do — I'd like to hear from you.
+          </p>
+          <a href="mailto:alva@xlna.com" class="contact-email">alva@xlna.com</a>
+          <a href="mailto:alva@xlna.com" class="contact-cta">Make an Enquiry</a>
+          <p class="escrow-note">All transactions via Escrow.com</p>
+        </div>
+      </div>
+      <div class="divider"></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="wrap" style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+      <span class="footer-brand">XLNA · Strategic Domain Portfolio</span>
+      <span class="footer-copy">© 2026 · Alva · Active since 2009</span>
+    </div>
+  </footer>
+
+  <script>
+    // Custom cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx + 'px';
+      cursor.style.top  = my + 'px';
+    });
+
+    function animRing() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) *.12;
+      ring.style.left = rx + 'px';
+      ring.style.top  = ry + 'px';
+      requestAnimationFrame(animRing);
+    }
+    animRing();
+
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.width = '16px';
+        cursor.style.height = '16px';
+        ring.style.width = '48px';
+        ring.style.height = '48px';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.style.width = '8px';
+        cursor.style.height = '8px';
+        ring.style.width = '32px';
+        ring.style.height = '32px';
+      });
+    });
+
+    // Scroll reveal
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
