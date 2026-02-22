@@ -127,7 +127,9 @@ h2 { font-size: 2.5rem; margin: 15px 0 30px; }
 .card:hover { border-color: var(--accent); transform: translateY(-10px); }
 
 .card-icon { color: var(--accent); font-size: 0.8rem; font-weight: bold; margin-bottom: 15px; border-bottom: 1px solid var(--accent); display: inline-block; }
-
+.card {
+    cursor: pointer;
+}
 /* Asset List */
 .asset-list { margin: 40px 0; border-top: 1px solid rgba(255,255,255,0.1); }
 
@@ -152,4 +154,5 @@ footer { padding: 60px; text-align: center; font-size: 0.8rem; color: #444; bord
     .nav { padding: 20px 5%; }
     .hero h1 { font-size: 2.5rem; }
     .btn-primary, .btn-secondary { display: block; margin: 10px auto; width: 200px; }
+
 }
